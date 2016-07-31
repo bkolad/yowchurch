@@ -37,12 +37,6 @@ infixr 8 .^
 (.^) :: PNat -> PNat -> PNat
 (.^) pn1 Zero = Succ Zero
 (.^) pn1 (Succ x) = pn1 .* pn1 .^x
-
-
-
-
-
-
 -- Ex 2a.4: Convert a Peano number to an integer
 unpeano :: PNat -> Int
 unpeano Zero = 0
