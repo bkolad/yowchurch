@@ -42,6 +42,7 @@ infixr 8 .^
 
 
 
+
 -- Ex 2a.4: Convert a Peano number to an integer
 unpeano :: PNat -> Int
 unpeano Zero = 0
