@@ -31,11 +31,13 @@ infixl 7 .*
 
 --a ^ (b+1)= a * a^b
 
+
 -- Ex 2a.3: Implement Peano exponential
 infixr 8 .^
 (.^) :: PNat -> PNat -> PNat
 (.^) pn1 Zero = Succ Zero
 (.^) pn1 (Succ x) = pn1 .* pn1 .^x
+
 
 
 
