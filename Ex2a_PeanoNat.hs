@@ -49,6 +49,7 @@ peano n = Succ $ peano (n-1)
 
 
 
+
 -- Instance boilerplate
 instance Show PNat where
   show = ("peano " ++) . show . unpeano
