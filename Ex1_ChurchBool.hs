@@ -27,8 +27,7 @@ infixr 3 .&&
 -- Ex 1.3: Implement boolean or
 infixr 2 .||
 (.||) :: CBool -> CBool -> CBool
-(.||) (CBool fa) (CBool fb) = CBool $  \x y -> fa (fb x y) x
-
+(.||) (CBool ifa) b = ifa cTrue b
 -- Ex 1.4: Turn a church boolean back into a boolean
 unchurch :: CBool -> Bool
 unchurch (CBool f) =  f True False
