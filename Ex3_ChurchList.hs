@@ -2,46 +2,53 @@
 
 module Ex3_ChurchList where
 
--- "a -> r -> r" handles a head element and tail list  
+-- "a -> r -> r" handles a head element and tail list
 -- "r" handles an empty list
-newtype CList a = CList 
+newtype CList a = CList
   { cFoldr :: (forall r. (a -> r -> r) -> r -> r)
   }
 
 -- Ex 3.1: Implement the empty Church list
-cNil :: CList a  
-cNil = undefined
+cNil :: CList a
+cNil = CList $ \a nil -> nil
 
--- Ex 3.2: Implement Church "cons", which 
+-- Ex 3.2: Implement Church "cons", which
 -- joins a head value to a tail list, forming a new list.
 infixr 5 .:
 (.:) :: a -> CList a -> CList a
-(.:) a (CList f) = undefined
+(.:) a (CList f) = CList $ \cons nil -> cons a (f cons nil)
 
--- Ex 3.3: Implement Church append, joining two lists together. 
+-- Ex 3.3: Implement Church append, joining two lists together.
 -- Hint: Consider how you might implement the non-church append
 -- (++) :: [a] -> [a] -> [a]
+--app [] l = l
+--app (h:hs) l = h : app (hs, l)
+-- foldr(\x acc -> x:acc ) ls2 ls
+
+
 infixr 5 .++
 (.++) :: CList a -> CList a -> CList a
-(.++) x y = undefined
+x .++ y = (cFoldr x) (.:) y
 
 -- Ex 3.4: Take the length of a Church list.
 cLength :: CList a -> Int
-cLength = undefined
+cLength (CList f)= f (\ _ r -> r + 1) 0
 
 -- 3.5: Convert a Church list to a regular list.
 unchurch :: CList a -> [a]
-unchurch = undefined
+unchurch (CList f) = f (\a r-> a:r) []
 
 -- 3.6: Convert a regular list to a Church list.
 church :: [a] -> CList a
-church = undefined
+church [] = cNil
+church (x:xs) = x .: (church xs)
+
 
 
 
 -- Instances boilerplate
-instance Show a => Show (CList a) where 
-  show = ("church " ++) . show . unchurch   
+instance Show a => Show (CList a) where
+  show = ("church " ++) . show . unchurch
 
 instance Eq a => Eq (CList a) where
-  a == b = unchurch a == unchurch b 
+  a == b = unchurch a == unchurch b
